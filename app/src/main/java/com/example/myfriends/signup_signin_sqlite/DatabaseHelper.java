@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
-        sqLiteDatabase.execSQL("drop table if exists"+TABLE_NAME);
+        sqLiteDatabase.execSQL("drop table if exists "+TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             String query="select *from "+TABLE_NAME;
 
-           Cursor  cursor=sqLiteDatabase.rawQuery(query,null);
+            Cursor  cursor=sqLiteDatabase.rawQuery(query,null);
 
            while(cursor.moveToNext())
            {
@@ -82,6 +82,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
            {
                return false;
            }
+    }
+
+    public boolean onEmailCheck(String email)
+    {
+        int log=0;
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        String query="select *from "+TABLE_NAME;
+
+        Cursor  cursor=sqLiteDatabase.rawQuery(query,null);
+
+        while(cursor.moveToNext())
+        {
+            String myEmail=cursor.getString(2);
+
+
+            if(email.equals(myEmail))
+            {
+                log=1;
+            }
+
+        }
+        if(log==1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
